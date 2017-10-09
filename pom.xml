@@ -6,13 +6,14 @@
 	<artifactId>VocabExtract</artifactId>
 	<packaging>war</packaging>
 	<version>0.1.0</version>
-
+    <properties>
+        <springframework.version>4.3.10.RELEASE</springframework.version>
+    </properties>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.6.Release</version>
-	</parent>
-
+	</parent> 
 	<repositories>
 		<repository>
 			<id>central</id>
@@ -71,13 +72,30 @@
            <artifactId>spring-aspects</artifactId>
            <version>4.3.10.RELEASE</version>
         </dependency>
-<!-- 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			<version>4.3.10.Release</version>
-		</dependency>
- -->
+        
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${springframework.version}</version>
+        </dependency>
+ 
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>javax.servlet.jsp-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
 		
         <dependency>
             <groupId>org.springframework</groupId>
@@ -85,12 +103,6 @@
             <version>4.3.10.RELEASE</version>
             <scope>test</scope>
         </dependency>
-
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.apache.jena</groupId>
@@ -150,10 +162,33 @@
 
 
 	</dependencies>
-
+	
 	<build>
-		<plugins>
-			<plugin>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.2</version>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>2.4</version>
+                    <configuration>
+                        <warSourceDirectory>src/main/webapp</warSourceDirectory>
+                        <warName>VocabExtract</warName>
+                        <failOnMissingWebXml>false</failOnMissingWebXml>
+                    </configuration>
+                </plugin>
+                
+            
+            
+            <plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
@@ -173,14 +208,15 @@
                <redirectTestOutputToFile>true</redirectTestOutputToFile>
                </configuration>
             </plugin>
-
-		</plugins>
-		
-		<resources>
+          </plugins>
+          
+        </pluginManagement>
+        <finalName>VocabExtract</finalName>
+        <resources>
             <resource>
             <directory>${project.basedir}/src/main/resources</directory>
             <filtering>false</filtering>
             </resource>
         </resources>
-	</build>
+    </build> 
 </project>
