@@ -48,7 +48,6 @@
 	<classpathentry kind="lib" path="lib/spring-boot-starter-tomcat-1.5.6.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/spring-boot-starter-web-1.5.6.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/spring-context-4.3.10.RELEASE.jar"/>
-	<classpathentry kind="lib" path="lib/spring-core-4.3.10.Release.jar"/>
 	<classpathentry kind="lib" path="lib/spring-expression-4.3.10.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/spring-test-4.3.10.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/spring-web-4.3.10.RELEASE.jar"/>
@@ -61,5 +60,10 @@
 	<classpathentry kind="lib" path="lib/xml-apis-1.4.01.jar"/>
 	<classpathentry kind="lib" path="lib/aspectjweaver-1.8.10.jar"/>
 	<classpathentry kind="lib" path="lib/spring-aspects-4.3.10.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/bootstrap-3.3.7.jar"/>
+	<classpathentry kind="lib" path="lib/javax.servlet-api-3.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/javax.servlet.jsp-api-2.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/jquery-1.11.1.jar"/>
+	<classpathentry kind="lib" path="lib/spring-core-4.3.10.RELEASE.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

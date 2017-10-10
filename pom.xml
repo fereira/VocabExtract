@@ -6,14 +6,22 @@
 	<artifactId>VocabExtract</artifactId>
 	<packaging>war</packaging>
 	<version>0.1.0</version>
+	
     <properties>
         <springframework.version>4.3.10.RELEASE</springframework.version>
+        <jena.version>3.4.0</jena.version>
+        <java.version>1.8</java.version>
+        <servlet.version>3.1.0</servlet.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+         
     </properties>
+    
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.6.Release</version>
-	</parent> 
+	</parent>
+	 
 	<repositories>
 		<repository>
 			<id>central</id>
@@ -58,56 +66,82 @@
         <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+               <exclusion>
+                   <groupId>org.springframework.boot</groupId>
+                   <artifactId>spring-boot-starter-tomcat</artifactId>
+               </exclusion>
+            </exclusions>
 		</dependency>
+		<dependency>
+           <groupId>org.springframework.boot</groupId>
+           <artifactId>spring-boot-starter-jetty</artifactId>
+       </dependency>
   		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>4.3.10.Release</version>
-		</dependency>
+			<version>${springframework.version}</version>
+			<scope>compile</scope>
+		</dependency> 
 		
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-aspects -->
         <dependency>
            <groupId>org.springframework</groupId>
            <artifactId>spring-aspects</artifactId>
-           <version>4.3.10.RELEASE</version>
+           <version>${springframework.version}</version>
+           <scope>compile</scope>
         </dependency>
         
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${springframework.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${springframework.version}</version>
+            <scope>test</scope>
         </dependency>
  
+        <!-- Servlet dependencies -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
+            <version>${servlet.version}</version>
         </dependency>
-        
-        <dependency>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>javax.servlet.jsp-api</artifactId>
-            <version>2.3.1</version>
-        </dependency>
-        
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
-		
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>4.3.10.RELEASE</version>
-            <scope>test</scope>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>javax.servlet.jsp-api</artifactId>
+            <version>2.3.1</version>
         </dependency>
+		
+        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+        <!--
+        <dependency>
+           <groupId>ch.qos.logback</groupId>
+           <artifactId>logback-classic</artifactId>
+           <version>1.2.3</version> 
+        </dependency>
+        
+        <dependency>
+          <groupId>ch.qos.logback</groupId>
+          <artifactId>logback-core</artifactId>
+          <version>1.2.3</version>
+       </dependency>
+       --> 
 
 		<dependency>
 			<groupId>org.apache.jena</groupId>
 			<artifactId>jena-arq</artifactId>
-			<version>3.4.0</version>
+			<version>${jena.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>slf4j-log4j12</artifactId>
@@ -123,7 +157,7 @@
 		<dependency>
 			<groupId>org.apache.jena</groupId>
 			<artifactId>jena-iri</artifactId>
-			<version>3.4.0</version>
+			<version>${jena.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>slf4j-log4j12</artifactId>
@@ -139,7 +173,7 @@
 		<dependency>
 			<groupId>org.apache.jena</groupId>
 			<artifactId>jena-tdb</artifactId>
-			<version>3.4.0</version>
+			<version>${jena.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>slf4j-api</artifactId>
@@ -151,7 +185,7 @@
 		<dependency>
 			<groupId>org.apache.jena</groupId>
 			<artifactId>jena-base</artifactId>
-			<version>3.4.0</version>
+			<version>${jena.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>slf4j-api</artifactId>
@@ -159,11 +193,23 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
-
+		
+		<dependency>
+           <groupId>org.webjars</groupId>
+           <artifactId>bootstrap</artifactId>
+           <version>3.3.7</version>
+        </dependency>
+        
 	</dependencies>
 	
 	<build>
+	    <finalName>VocabExtract</finalName>
+        <resources>
+            <resource>
+            <directory>${project.basedir}/src/main/resources</directory>
+            <filtering>false</filtering>
+            </resource>
+        </resources>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -185,8 +231,6 @@
                         <failOnMissingWebXml>false</failOnMissingWebXml>
                     </configuration>
                 </plugin>
-                
-            
             
             <plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
@@ -208,15 +252,18 @@
                <redirectTestOutputToFile>true</redirectTestOutputToFile>
                </configuration>
             </plugin>
+            
+            <plugin>
+               <groupId>org.eclipse.jetty</groupId>
+               <artifactId>jetty-maven-plugin</artifactId>
+               <version>9.4.7.v20170914</version>
+               <configuration>
+                  <jettyXml>jetty.xml, jetty-http.xml</jettyXml>
+               </configuration>
+            </plugin>
           </plugins>
           
         </pluginManagement>
-        <finalName>VocabExtract</finalName>
-        <resources>
-            <resource>
-            <directory>${project.basedir}/src/main/resources</directory>
-            <filtering>false</filtering>
-            </resource>
-        </resources>
+        
     </build> 
 </project>
