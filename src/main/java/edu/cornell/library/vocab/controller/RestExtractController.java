@@ -52,7 +52,7 @@ public class RestExtractController {
 		service.setConceptsSkosMosSearch("https://api.library.cornell.edu/skosmos/rest/v1/"+ vocabulary +"/search?");
 		
 		try {
-			String results = service.getSKOSMosSearchResults(term, vocabulary, lang);
+			String results = service.getSKOSMosSearchResults(term, vocabulary, lang, "altLabel");
 			//displayJson(results);
 			return results;
 		} catch (Exception e) {

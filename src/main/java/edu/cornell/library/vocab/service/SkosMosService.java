@@ -24,7 +24,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
+import edu.cornell.library.vocab.obj.Concept;
 import edu.cornell.library.vocab.util.URLEncoder; 
 
 @Component
@@ -109,7 +111,7 @@ public class SkosMosService {
 	}
 	
 	protected void run() {
-		String results = getSKOSMosSearchResults("forestry", "agrovoc", getLang());
+		String results = getSKOSMosSearchResults("forestry", "agrovoc", getLang(), "");
 		System.out.println(results);
 		List<String> uriList = getConceptURIs(results);
 		for (String uri: uriList) {
@@ -118,7 +120,7 @@ public class SkosMosService {
 	}
 	
 	public List<String> getSKOSMosConceptUriList(String term, String vocab, String lang) {
-		String results = getSKOSMosSearchResults(term, vocab, lang);		
+		String results = getSKOSMosSearchResults(term, vocab, lang, "");		
 		List<String> uriList = getConceptURIs(results);		 
 		return uriList;
 	}
@@ -145,9 +147,12 @@ public class SkosMosService {
 	 * The code above can still be utilized if we need to employ the web services directly
 	 */
 	//Get search results for a particular term and language code
-	public String getSKOSMosSearchResults(String term, String vocab, String lang) {
+	public String getSKOSMosSearchResults(String term, String vocab, String lang, String fields) {
 		String urlEncodedTerm = URLEncoder.encode(term); 
 		String searchUrlString = this.conceptsSkosMosSearch + "query=" + urlEncodedTerm + "&lang=" + lang;
+		if (StringUtils.isNotEmpty(fields)) {
+			searchUrlString = searchUrlString + "&fields="+ fields;
+		}
 		System.out.println("Search URL: "+ searchUrlString); 
 		URL searchURL = null;
 		try {
@@ -214,10 +219,9 @@ public class SkosMosService {
 	 
 	
 	public String getSKOSData(String uri, String format) {
-		String urlEncodedUri = URLEncoder.encode(uri); 
-		 
-		//String dataUrlString = this.conceptsSkosMosData + "uri=" + urlEncodedUri + "&format=" + format;
-		String dataUrlString = this.conceptsSkosMosData + "uri=" + urlEncodedUri + "&format="+ format; 
+		String urlEncodedUri = URLEncoder.encode(uri);
+		String dataUrlString = this.conceptsSkosMosData + "uri=" + urlEncodedUri + "&format="+ format +"&lang=en";
+		//System.out.println(dataUrlString);
 		URL dataURL = null;
 		try {
 			dataURL = new URL(dataUrlString);
@@ -497,5 +501,7 @@ public class SkosMosService {
 		}
 		return ntmap;
 	}
+	
+
 
 }
