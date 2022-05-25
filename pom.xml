@@ -8,9 +8,9 @@
 	<version>0.1.0</version>
 	
     <properties>
-        <springframework.version>4.3.10.RELEASE</springframework.version>
-        <jena.version>3.4.0</jena.version>
-        <java.version>1.8</java.version>
+        <springframework.version>5.2.22.RELEASE</springframework.version>
+        <jena.version>4.2.0</jena.version>
+        <java.version>11</java.version>
         <servlet.version>3.1.0</servlet.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
          
